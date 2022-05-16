@@ -6,9 +6,12 @@ const Create = () => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [author, setAuthor] = useState('Mario');
+
+    const [closedQ, setClosedQ] = useState(false);
+
     const [isPending, setIsPending]= useState(false); 
     const [inputFields, setInputFields] = useState([
-        { id: uuidv4(), firstName: '', lastName: '' },
+        { id: uuidv4(), question: '', answer: '' },
       ]);
     const navigate = useNavigate ();
 
@@ -42,8 +45,13 @@ const Create = () => {
     }
 
     const handleAddFields = () => {
-        setInputFields([...inputFields, { id: uuidv4(),  firstName: '', lastName: '' }])
+        setInputFields([...inputFields, { id: uuidv4(),  question: '', answer: '' }])
       }
+
+    const handleChangeFields = ()=> {
+ 
+        setClosedQ(false);
+    }
     
       const handleRemoveFields = id => {
         const values  = [...inputFields];
@@ -57,27 +65,31 @@ const Create = () => {
         <form onSubmit={handleSubmit}>
         { inputFields.map(inputField => (
           <div key={inputField.id}>
-            <textarea
-              name="firstName"
-              label="First Name"
+            <label>Question</label>
+            <input
+              name="question"
+              label="Question"
               variant="filled"
-              value={inputField.firstName}
+              value={inputField.question}
               onChange={event => handleChangeInput(inputField.id, event)}
             />
-            <textarea
-              name="lastName"
-              label="Last Name"
-              variant="filled"
-              value={inputField.lastName}
+            <label>Answer</label>
+            { <input name="answer"blabel="Answer" variant="filled" value={inputField.answer}       
               onChange={event => handleChangeInput(inputField.id, event)}
-            />
+            /> }
+           
             <button disabled={inputFields.length === 1} onClick={() => handleRemoveFields(inputField.id)}>
              Delete question
             </button>
             <button
               onClick={handleAddFields}
             >
-              Add question
+              Add Open Question
+            </button>
+            <button
+              onClick={handleChangeFields}
+            >
+              Add Star Question
             </button>
           </div>
         )) }
@@ -88,33 +100,9 @@ const Create = () => {
           onClick={handleSubmit}
         >Send</button>
 
-            <label>Title:</label>
-            <input 
-            type="text" 
-            required
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            />
-
-            <label>Body:</label>
-            <textarea required
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            >
-
-            </textarea>
-            <label>Author:</label>
-            <select
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-            >
-                <option value="Mario">Mario</option>
-                <option value="Yoshi">Yoshi</option>
-            </select>
-            {!isPending && <button>Add Survey</button>}
-            {isPending && <button disabled>Adding Survey...</button>}
+            
         </form>
-        <button onSubmit={handleAddFields}>Add Question</button>
+        
     </div>     
     );
 }
