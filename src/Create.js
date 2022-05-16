@@ -2,12 +2,13 @@ import { useState } from "react";
 import { useNavigate  } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 
+
 const Create = () => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [author, setAuthor] = useState('Mario');
 
-    const [closedQ, setClosedQ] = useState(false);
+  
 
     const [isPending, setIsPending]= useState(false); 
     const [inputFields, setInputFields] = useState([
@@ -48,10 +49,7 @@ const Create = () => {
         setInputFields([...inputFields, { id: uuidv4(),  question: '', answer: '' }])
       }
 
-    const handleChangeFields = ()=> {
- 
-        setClosedQ(false);
-    }
+
     
       const handleRemoveFields = id => {
         const values  = [...inputFields];
@@ -75,9 +73,8 @@ const Create = () => {
             />
             <label>Answer</label>
             { <input name="answer"blabel="Answer" variant="filled" value={inputField.answer}       
-              onChange={event => handleChangeInput(inputField.id, event)}
-            /> }
-           
+              onChange={event => handleChangeInput(inputField.id, event)}/> }
+
             <button disabled={inputFields.length === 1} onClick={() => handleRemoveFields(inputField.id)}>
              Delete question
             </button>
@@ -85,11 +82,6 @@ const Create = () => {
               onClick={handleAddFields}
             >
               Add Open Question
-            </button>
-            <button
-              onClick={handleChangeFields}
-            >
-              Add Star Question
             </button>
           </div>
         )) }
